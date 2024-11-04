@@ -68,7 +68,6 @@ exports.deleteComment = async (req, res) => {
 };
 
 exports.replyToComment = async (req, res) => {
-  console.log("woof");
   const { accessToken, commentId, message } = req.body;
 
   try {
@@ -76,7 +75,6 @@ exports.replyToComment = async (req, res) => {
       `https://graph.instagram.com/${commentId}/replies?message=${message}&access_token=${accessToken}`
     );
     res.json(response.data);
-    console.log(response.data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -25,7 +25,7 @@ exports.instagramCallback = async (req, res) => {
     const accessToken = response.data.access_token;
     const userId = response.data.user_id;
     res.redirect(
-      `http://localhost:3000/profile?accessToken=${accessToken}&userId=${userId}`
+      `${config.frontendUrl}/profile?accessToken=${accessToken}&userId=${userId}`
     );
   } catch (error) {
     res.status(500).json({ error: error.message });

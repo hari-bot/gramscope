@@ -34,7 +34,7 @@ function ProfilePage() {
       const fetchProfile = async () => {
         try {
           const response = await fetch(
-            `http://localhost:5000/instagram/profile?accessToken=${accessToken}`
+            `${process.env.REACT_APP_API_BASE_URL}/instagram/profile?accessToken=${accessToken}`
           );
           const data = await response.json();
           setProfile(data);

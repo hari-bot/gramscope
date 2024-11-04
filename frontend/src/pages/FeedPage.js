@@ -42,7 +42,7 @@ function FeedPage() {
     const fetchFeed = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/instagram/feed?accessToken=${accessToken}`
+          `${process.env.REACT_APP_API_BASE_URL}/instagram/feed?accessToken=${accessToken}`
         );
         const feedResponse = await response.json();
         setFeed(feedResponse.data);
@@ -59,7 +59,7 @@ function FeedPage() {
     const accessToken = localStorage.getItem("accessToken");
     try {
       const response = await fetch(
-        `http://localhost:5000/instagram/comments?accessToken=${accessToken}&mediaId=${post.id}`
+        `${process.env.REACT_APP_API_BASE_URL}/instagram/comments?accessToken=${accessToken}&mediaId=${post.id}`
       );
       const commentsResponse = await response.json();
       setComments(commentsResponse.data);
@@ -75,7 +75,7 @@ function FeedPage() {
     const accessToken = localStorage.getItem("accessToken");
     try {
       await fetch(
-        `http://localhost:5000/instagram/delete-comment?accessToken=${accessToken}&commentId=${commentId}`,
+        `${process.env.REACT_APP_API_BASE_URL}/instagram/delete-comment?accessToken=${accessToken}&commentId=${commentId}`,
         { method: "DELETE" }
       );
       setComments((prevComments) =>
@@ -106,7 +106,7 @@ function FeedPage() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/instagram/reply-comment`,
+        `${process.env.REACT_APP_API_BASE_URL}/instagram/reply-comment`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -13,7 +13,7 @@ function LoginPage() {
   }, [navigate]);
 
   const handleLogin = () => {
-    window.location.href = "http://localhost:5000/auth/instagram";
+    window.location.href = `${process.env.REACT_APP_API_BASE_URL}/auth/instagram`;
   };
 
   return (

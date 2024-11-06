@@ -14,6 +14,7 @@ const Navbar = () => {
   const navItems = [
     { name: "Profile", path: "/profile" },
     { name: "Feed", path: "/feed" },
+    { name: "Quick Reply", path: "/quick-reply" },
   ];
 
   const toggleMenu = () => setIsOpen(!isOpen);

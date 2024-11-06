@@ -30,6 +30,7 @@ function FeedPage() {
   const [comments, setComments] = useState([]);
   const [replyMessage, setReplyMessage] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,6 +42,7 @@ function FeedPage() {
 
     const fetchFeed = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch(
           `${process.env.REACT_APP_API_BASE_URL}/instagram/feed?accessToken=${accessToken}`
         );
@@ -49,6 +51,8 @@ function FeedPage() {
       } catch (error) {
         console.error("Error fetching feed:", error);
         toast.error("Failed to fetch feed. Please try again.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -153,40 +157,46 @@ function FeedPage() {
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
           Your Feed
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {feed.map((post) => (
-            <div
-              key={post.id}
-              className="bg-white rounded-lg shadow-md overflow-hidden"
-            >
-              <img
-                src={post.media_url}
-                alt={post.caption}
-                className="w-full h-64 object-cover"
-              />
-              <div className="p-4">
-                <p className="text-gray-700 mb-4">{post.caption}</p>
-                <div className="flex justify-between items-center text-gray-500 mb-4">
-                  <button
-                    className="flex items-center space-x-1 text-pink-500 hover:text-pink-600 transition-colors"
-                    aria-label={`${post.like_count} likes`}
-                  >
-                    <Heart className="w-5 h-5" />
-                    <span>{post.like_count}</span>
-                  </button>
-                  <button
-                    onClick={() => fetchComments(post)}
-                    className="flex items-center space-x-1 text-blue-500 hover:text-blue-600 transition-colors"
-                    aria-label={`View ${post.comments_count} comments`}
-                  >
-                    <MessageCircle className="w-5 h-5" />
-                    <span>{post.comments_count}</span>
-                  </button>
+        {isLoading ? (
+          <div className="flex justify-center items-center h-[calc(100vh-80px)]">
+            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {feed.map((post) => (
+              <div
+                key={post.id}
+                className="bg-white rounded-lg shadow-md overflow-hidden"
+              >
+                <img
+                  src={post.media_url}
+                  alt={post.caption}
+                  className="w-full h-64 object-cover"
+                />
+                <div className="p-4">
+                  <p className="text-gray-700 mb-4">{post.caption}</p>
+                  <div className="flex justify-between items-center text-gray-500 mb-4">
+                    <button
+                      className="flex items-center space-x-1 text-pink-500 hover:text-pink-600 transition-colors"
+                      aria-label={`${post.like_count} likes`}
+                    >
+                      <Heart className="w-5 h-5" />
+                      <span>{post.like_count}</span>
+                    </button>
+                    <button
+                      onClick={() => fetchComments(post)}
+                      className="flex items-center space-x-1 text-blue-500 hover:text-blue-600 transition-colors"
+                      aria-label={`View ${post.comments_count} comments`}
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                      <span>{post.comments_count}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

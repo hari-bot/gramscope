@@ -33,3 +33,27 @@ exports.instagramCallback = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.instagramMobileCallback = async (req, res) => {
+  const { code } = req.query;
+
+  try {
+    const response = await axios.post(
+      `https://api.instagram.com/oauth/access_token`,
+      new URLSearchParams({
+        client_id: config.instagramClientID,
+        client_secret: config.instagramClientSecret,
+        grant_type: "authorization_code",
+        redirect_uri: config.redirectURI,
+        code,
+      }),
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+    );
+
+    const accessToken = response.data.access_token;
+    const userId = response.data.user_id;
+    res.redirect(`exp://192.168.1.12:8081/--/profile`);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

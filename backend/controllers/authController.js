@@ -65,6 +65,6 @@ exports.instagramMobileCallback = async (req, res) => {
       `exp://192.168.1.12:8081/--/profile?accessToken=${accessToken}&userId=${userId}`
     );
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error });
   }
 };

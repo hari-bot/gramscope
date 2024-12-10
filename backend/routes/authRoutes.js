@@ -4,8 +4,11 @@ const authController = require("../controllers/authController");
 
 router.get("/instagram", authController.instagramLogin);
 router.get("/instagram/callback", authController.instagramCallback);
+
+router.get("/instagram-mobile", authController.instagramMobileLogin);
+
 router.get(
-  "/instagram/mobile-callback",
+  "/instagram/callback-mobile",
   authController.instagramMobileCallback
 );
 

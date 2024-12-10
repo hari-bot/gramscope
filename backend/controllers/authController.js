@@ -53,7 +53,7 @@ exports.instagramMobileCallback = async (req, res) => {
         client_id: config.instagramClientID,
         client_secret: config.instagramClientSecret,
         grant_type: "authorization_code",
-        redirect_uri: config.redirectURI,
+        redirect_uri: `${config.redirectURI}-mobile`,
         code,
       }),
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
@@ -65,6 +65,6 @@ exports.instagramMobileCallback = async (req, res) => {
       `exp://192.168.1.12:8081/--/profile?accessToken=${accessToken}&userId=${userId}`
     );
   } catch (error) {
-    res.status(500).json({ error });
+    res.status(500).json({ error: error.message });
   }
 };
